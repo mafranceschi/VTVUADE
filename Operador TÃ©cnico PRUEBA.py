@@ -1,5 +1,4 @@
-#DECLARACIONES
-
+from operadorAdminRecepcion import turno
 vehiculos = {1:'Auto', 2:'Moto', 3:'Camion'}
 #FUNCIONES
 
@@ -21,7 +20,7 @@ def verificacion_automovil(): #Proceso tecnico del auto
     puntajeInterior = []
     puntajeExterior = []
     puntajeMecanica = []
-    print("Verificacion Interior") #Verificacion tecnica del interior
+    print("\nVerificacion Interior") #Verificacion tecnica del interior
     puertas = int(input("Cierre de las puertas: "))
     ventanillas = int(input("Visibilidad de las ventanillas: "))
     parabrisas = int(input("Visibilidad del parabrisas: "))
@@ -129,11 +128,7 @@ def verificar_camion(): #Proceso tecnico del camion
 
 
 #PRINCIPAL
-print("1: Auto")
-print("2: Moto")
-print("3: Camion")
-print("-1 para finalizar el turno")
-tipoVehiculo = int(input("Ingrese el tipo de vehiculo a examinar: "))
+tipoVehiculo = int(turno["Tipo"])
 while tipoVehiculo != -1:
     tipoVehiculo = verificar_vehiculo(tipoVehiculo)
     incorrecto = 0
@@ -180,11 +175,7 @@ while tipoVehiculo != -1:
         print("PROVISORIO: ",vehiculos[tipoVehiculo])
     else:
         print("APROBADO: ",vehiculos[tipoVehiculo])
-    print("1: Auto")
-    print("2: Moto")
-    print("3: Camion")
-    print("-1 para finalizar el turno")
-    tipoVehiculo = int(input("Ingrese el tipo de vehiculo a examinar: "))
+   
     
    
     

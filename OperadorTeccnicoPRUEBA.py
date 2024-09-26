@@ -135,6 +135,7 @@ while tipoVehiculo != -1:
     regular = 0
     bien = 0
     if vehiculos[tipoVehiculo] == 'Auto':
+        tipoVehiculo = -1
         puntajeInterior, puntajeExterior, puntajeMecanica = verificacion_automovil()
         
         malInterior, regularInterior, bienInterior = contar_puntajes(puntajeInterior)
@@ -146,6 +147,7 @@ while tipoVehiculo != -1:
         bien += bienInterior + bienExterior + bienMecanica
     
     elif vehiculos[tipoVehiculo] == 'Moto':
+        tipoVehiculo = -1
         puntajeExterior, puntajeMecanico, puntajeConductor = verificacion_moto()
         
         malExterior, regularExterior, bienExterior = contar_puntajes(puntajeExterior)
@@ -158,6 +160,7 @@ while tipoVehiculo != -1:
         bien += bienExterior + bienMecanico + bienConductor
     
     else:
+        tipoVehiculo = -1
         puntajeInterior, puntajeExterior, puntajeMecanica = verificacion_automovil()
         
         malInterior, regularInterior, bienInterior = contar_puntajes(puntajeInterior)
@@ -170,11 +173,13 @@ while tipoVehiculo != -1:
         
         
     if incorrecto > 0:
-        print("NO APROBADO: ",vehiculos[tipoVehiculo])
+        print("\nNO APROBADO: ",turno)
     elif regular > 12:
-        print("PROVISORIO: ",vehiculos[tipoVehiculo])
+        print("\nPROVISORIO: ",turno)
     else:
-        print("APROBADO: ",vehiculos[tipoVehiculo])
+        print("\nAPROBADO:")
+        for clave, valor in turno.items():
+            print(f"{clave}: {valor}")
    
     
    

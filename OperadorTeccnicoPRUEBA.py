@@ -29,7 +29,6 @@ def verificacion_automovil(): #Proceso tecnico del auto
     apoyaCabezas = int(input("Anclaje de apoyacabezas: "))
     espejos = int(input("Visibilidad de los espejos: "))
     bocina = int(input("Comando de bocina: "))
-    comentariosUno = input("Comentarios: ")
     print("Verificacion Exterior") #Verificacion tecnica del exterior 
     alineacionLuces = int(input("Alineacion de luces de corto y largo alcance: "))
     intencidadLuces = int(input("Intencidad de luces de corto y largo alcance: "))
@@ -39,7 +38,6 @@ def verificacion_automovil(): #Proceso tecnico del auto
     lucesIntermitentes = int(input("Encendido de luces intermitentes: "))
     alcanceBocina = int(input("Alcance de la Bocina: "))
     limpiaParabrisas = int(input("Funcionamiento y estado de las escobillas: "))
-    comentariosDos = input("Comentarios: ")
     print("Verificacion Mecanica") #Verificacion tecnica de mecanica
     alineacionEjeDelantero = int(input("Alineacion del eje delantero: "))
     frenos = int(input("Sistema de frenos: "))
@@ -49,7 +47,6 @@ def verificacion_automovil(): #Proceso tecnico del auto
     suspencion = int(input("Estado de la suspencion: "))
     funcionamientoSuspencion = int(input("Funcionamiento de la suspencion: "))
     inferior = int(input("Estado de la parte inferior: "))
-    comentariosTres = input("Comentarios: ")
     puntajeInterior.extend([puertas, ventanillas, parabrisas, cinturones, asientos, apoyaCabezas, espejos, bocina])
     puntajeExterior.extend([alineacionLuces, intencidadLuces, lucesPosicion, lucesFreno, lucesReversa, lucesIntermitentes, alcanceBocina, limpiaParabrisas])
     puntajeMecanica.extend([alineacionEjeDelantero, frenos, direccion, roturasFugasEscape, ruidoEscape, suspencion, funcionamientoSuspencion, inferior])
@@ -121,6 +118,7 @@ def verificar_camion(): #Proceso tecnico del camion
     funcionamientoSuspencion = int(input("Funcionamiento de la suspencion: "))
     inferior = int(input("Estado de la parte inferior: "))
     comentariosTres = input("Comentarios: ")
+    
     puntajeInterior.extend([puertas, ventanillas, parabrisas, cinturones, asientos, apoyaCabezas, espejos, bocina])
     puntajeExterior.extend([alineacionLuces, intencidadLuces, lucesPosicion, lucesFreno, lucesReversa, lucesIntermitentes, alcanceBocina, limpiaParabrisas])
     puntajeMecanica.extend([alineacionEjeDelantero, frenos, direccion, roturasFugasEscape, ruidoEscape, suspencion, funcionamientoSuspencion, inferior])
@@ -173,11 +171,15 @@ while tipoVehiculo != -1:
         
         
     if incorrecto > 0:
-        print("\nNO APROBADO: ",turno)
+        turno["estado"] = "No Aprueba"
+        for clave, valor in turno.items():
+            print(f"{clave}: {valor}")
     elif regular > 12:
-        print("\nPROVISORIO: ",turno)
+        turno["estado"] = "Provisoria"
+        for clave, valor in turno.items():
+            print(f"{clave}: {valor}")
     else:
-        print("\nAPROBADO:")
+        turno["estado"] = "Aprueba"
         for clave, valor in turno.items():
             print(f"{clave}: {valor}")
    

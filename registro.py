@@ -21,7 +21,7 @@ def registro_vehicular(): #Carga y verificacion de datos
     while len(dominio) != 6:
         print("Numero de dominio invalido")
         dominio = input("Ingrese el numero de dominio del vehiculo: ")
-        dominio = dominio.upper()
+    dominio = dominio.upper()
     
     tipoDeVehiculo = input("Ingrese el tipo de vehiculo('auto=1','moto=2' o 'camion=3'):")
     tipoDeVehiculo = tipoDeVehiculo.upper()

@@ -334,13 +334,13 @@ def crear_interfaz():
         command=lambda: registrar_vehiculo(dominio, dni, nombre, modelo, marca, año, monto, tipo_vehiculo, ventana),
     ).pack(pady=10)
     
-    tk.Button(#+
-        ventana,#+
+    tk.Button(
+        ventana,
         text="Ver Historial",
         command=mostrar_historial
-    ).pack(pady=10)#+
-#+
-    ventana.mainloop()#+
+    ).pack(pady=10)
+
+    ventana.mainloop()
 
     ventana.mainloop()
 

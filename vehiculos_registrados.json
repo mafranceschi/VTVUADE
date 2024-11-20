@@ -75,5 +75,38 @@
         "monto": 90000.0,
         "estado": "No Aprueba",
         "tipo": "Auto"
+    },
+    {
+        "dominio": "abc123",
+        "dni": 45266156,
+        "nombre": "mateo",
+        "modelo": "corolla",
+        "marca": "toyoyta",
+        "a\u00f1o": 2020,
+        "monto": 90000.0,
+        "estado": "No Aprueba",
+        "tipo": "Auto"
+    },
+    {
+        "dominio": "hgjkll",
+        "dni": 546481655,
+        "nombre": "juabni",
+        "modelo": "fit",
+        "marca": "honda",
+        "a\u00f1o": 2020,
+        "monto": 90000.0,
+        "estado": "Pendiente",
+        "tipo": "Auto"
+    },
+    {
+        "dominio": "juh078",
+        "dni": 44454746,
+        "nombre": "mateo",
+        "modelo": "fit ",
+        "marca": "honda",
+        "a\u00f1o": 2013,
+        "monto": 90000.0,
+        "estado": "No Aprueba",
+        "tipo": "Auto"
     }
 ]

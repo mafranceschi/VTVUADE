@@ -1,0 +1,79 @@
+[
+    {
+        "dominio": "abc123",
+        "dni": 45825612,
+        "nombre": "mateo",
+        "modelo": "corolla",
+        "marca": "toyota",
+        "a\u00f1o": 2020,
+        "monto": 60000.0,
+        "estado": "Pendiente",
+        "tipo": "Auto"
+    },
+    {
+        "dominio": "abc123",
+        "dni": 27778548,
+        "nombre": "juani",
+        "modelo": "fit",
+        "marca": "honda",
+        "a\u00f1o": 2016,
+        "monto": 90000.0,
+        "estado": "Pendiente",
+        "tipo": "Auto"
+    },
+    {
+        "dominio": "abc123",
+        "dni": 9555555,
+        "nombre": "guido",
+        "modelo": "ferrari",
+        "marca": "488",
+        "a\u00f1o": 2018,
+        "monto": 900000.0,
+        "estado": "Pendiente",
+        "tipo": "Auto"
+    },
+    {
+        "dominio": "abc123",
+        "dni": 8564566,
+        "nombre": "juan",
+        "modelo": "corsa",
+        "marca": "chevrolet",
+        "a\u00f1o": 2014,
+        "monto": 90000.0,
+        "estado": "Pendiente",
+        "tipo": "Auto"
+    },
+    {
+        "dominio": "abc123",
+        "dni": 5681688,
+        "nombre": "juan",
+        "modelo": "corolla",
+        "marca": "toyota",
+        "a\u00f1o": 2013,
+        "monto": 9000.0,
+        "estado": "Pendiente",
+        "tipo": "Auto"
+    },
+    {
+        "dominio": "abc123",
+        "dni": 4562135,
+        "nombre": "juan",
+        "modelo": "corolla",
+        "marca": "toyota",
+        "a\u00f1o": 2014,
+        "monto": 60000.0,
+        "estado": "Aprueba",
+        "tipo": "Auto"
+    },
+    {
+        "dominio": "abc123",
+        "dni": 45685,
+        "nombre": "mateo",
+        "modelo": "corolla",
+        "marca": "toyota",
+        "a\u00f1o": 2020,
+        "monto": 90000.0,
+        "estado": "No Aprueba",
+        "tipo": "Auto"
+    }
+]

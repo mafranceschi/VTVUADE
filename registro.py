@@ -7,6 +7,29 @@
     print ("3 - Impresion")
     print ("0 - Salir del programa")
     return"""
+def validacion_dominio (dominio):
+    dominio = dominio.upper()
+    letraPatenteCorta = ("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P")
+    letraPatenteLarga = ("A","B","C","D","E")
+    if len(dominio) == 6 and dominio[1] in letraPatenteCorta:
+        primerasTres = dominio [:3]
+        ultimasTres = dominio[-3:]
+        if ultimasTres.isdigit():
+            if primerasTres.isalpha():
+                if dominio[0] in letraPatenteCorta:
+                    return True
+
+    elif len(dominio) == 7 and dominio[0] in letraPatenteLarga:
+        primerasDos = dominio [:2]
+        segundasTres = dominio [2:5]
+        ultimasDos = dominio [-2:]
+        if primerasDos.isalpha():
+            if segundasTres.isdigit():
+                if ultimasDos.isalpha():
+                    return True 
+
+    return False 
+        
 def registro_vehicular(): #Carga y verificacion de datos
     
     nombreTitular = input("Ingrese su nombre y apellido: ")
@@ -18,10 +41,9 @@ def registro_vehicular(): #Carga y verificacion de datos
         dni = int (input("Ingrese su numero de DNI: "))
     
     dominio = input("Ingrese el numero de dominio del vehiculo: ")
-    while len(dominio) != 6:
+    while validacion_dominio (dominio) == False:
         print("Numero de dominio invalido")
         dominio = input("Ingrese el numero de dominio del vehiculo: ")
-    dominio = dominio.upper()
     
     tipoDeVehiculo = input("Ingrese el tipo de vehiculo('auto=1','moto=2' o 'camion=3'):")
     tipoDeVehiculo = tipoDeVehiculo.upper()
@@ -60,5 +82,16 @@ def impresion (vehiculo):#Impresion por pantalla del resumen del turno
     print(f"Modelo del vehículo: {vehiculo['modelo']}")
     print(f"Marca del vehículo: {vehiculo['marca']}")
     print(f"Año del vehículo: {vehiculo['año']}")
-    print(f"El monto a abonar es: {vehiculo['monto']}")
+#    print(f"El monto a abonar es: {vehiculo['monto']}")
+
+
+
+    
+    
+    
 #PRINCIPAL
+ve = registro_vehicular()
+impresion(ve)
+
+with open('resumen_turno.txt', 'a') as file:
+    file.write(str(ve))

@@ -1,19 +1,25 @@
 #FUNCIONES
-
+from OperadorTeccnicoPRUEBA import turno, incorrecto, regular, bien
 
 def obtener_reporte_tecnico():
     # Simulación obtención del reporte técnico como un diccionario
-    return {
+    reporte = {
         "programa": "Operador Tecnico",
-        "diagnostico": "no aprobado",  # Puede ser "aprobado", "provisorio" o "no aprobado"
-        "fallos": ["frenos, espejos, luces de freno, suspension"]
+        "Dominio": turno["dominio"],
+        "vehiculo":  turno["modelo"],
+        "diagnostico": turno["estado"],  # Puede ser "aprobado", "provisorio" o "no aprobado"
+        "fallos": incorrecto
     }
+    if reporte["fallos"] == 0:
+        del reporte["fallos"]
+    return reporte
 
 def imprimir_reporte(reporte):
-    print(f"Reporte técnico: {reporte['programa']}")
-    print(f"Diagnóstico: {reporte.get('diagnostico', 'No disponible')}")
+    print(f"\nReporte técnico: {reporte['programa']}")
+    print(f"Dominio: {reporte['Dominio']}")
+    print(f"Diagnóstico: {reporte['diagnostico']}")
     if "fallos" in reporte:
-        print(f"Fallos: {', '.join(reporte['fallos'])}")
+        print(f"Fallos: {reporte['fallos']}")
     else:
         print("No se encontraron fallos.")
         
@@ -21,11 +27,11 @@ def obtener_estado_vtv(reporte):
     # Determina estado de la VTV a partir del diagnóstico realizado
     diagnostico = reporte.get('diagnostico')
     
-    if diagnostico == "aprobado":
+    if diagnostico == "Aprueba":
         return "VTV aprobada"
-    elif diagnostico == "no aprobado":
+    elif diagnostico == "No Aprueba":
         return "VTV reprobada"
-    elif diagnostico == "provisorio":
+    elif diagnostico == "Provisoria":
         return "VTV provisoria"
 
 def generar_oblea_vtv(reporte):

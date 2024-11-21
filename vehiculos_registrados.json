@@ -108,5 +108,16 @@
         "monto": 90000.0,
         "estado": "No Aprueba",
         "tipo": "Auto"
+    },
+    {
+        "dominio": "abc123",
+        "dni": 45825612,
+        "nombre": "mateo",
+        "modelo": "fir",
+        "marca": "honda",
+        "a\u00f1o": 2020,
+        "monto": 900000.0,
+        "estado": "No Aprueba",
+        "tipo": "Auto"
     }
 ]

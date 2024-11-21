@@ -168,7 +168,6 @@ def evaluar_camion(vehiculo):
 
     puntajes = {"Interior": [], "Exterior": [], "Mecánica": []}
 
-    # Creación de pestañas para cada sección
     for seccion, criterios in secciones.items():
         frame = ttk.Frame(notebook)
         notebook.add(frame, text=seccion)
@@ -178,6 +177,13 @@ def evaluar_camion(vehiculo):
             spin = tk.Spinbox(frame, from_=0, to=2, width=5)
             spin.pack()
             puntajes[seccion].append(spin)
+
+    tk.Button(
+        ventana_evaluacion,
+        text="Calcular Resultado",
+        command=lambda: calcular_resultado_y_reporte(vehiculo, puntajes, ventana_evaluacion),
+    ).pack(pady=20)
+
 
 def evaluar_moto(vehiculo):
     ventana_evaluacion = tk.Toplevel()
@@ -205,7 +211,6 @@ def evaluar_moto(vehiculo):
 
     puntajes = {"Exterior": [], "Mecánica": [], "Conductor": []}
 
-    # Creación de pestañas para cada sección
     for seccion, criterios in secciones.items():
         frame = ttk.Frame(notebook)
         notebook.add(frame, text=seccion)
@@ -216,29 +221,11 @@ def evaluar_moto(vehiculo):
             spin.pack()
             puntajes[seccion].append(spin)
 
-    # Función para crear las secciones dentro de las pestañas
-    def crear_seccion(titulo, campos, seccion):
-        frame = ttk.Frame(notebook)
-        notebook.add(frame, text=titulo)
-
-        for campo in campos:
-            tk.Label(frame, text=campo).pack()
-            spin = tk.Spinbox(frame, from_=0, to=2, width=5)
-            spin.pack()
-            puntajes[seccion].append(spin)
-
-    # Crear las secciones dentro de las pestañas
-    crear_seccion("Verificación Interior", secciones["Interior"], "Interior")
-    crear_seccion("Verificación Exterior", secciones["Exterior"], "Exterior")
-    crear_seccion("Verificación Mecánica", secciones["Mecánica"], "Mecánica")
-
-    # Botón para calcular resultado
     tk.Button(
         ventana_evaluacion,
         text="Calcular Resultado",
         command=lambda: calcular_resultado_y_reporte(vehiculo, puntajes, ventana_evaluacion),
     ).pack(pady=20)
-
 # Función para imprimir un vehículo en el formato solicitado
 def impresion(vehiculo):
     return (f"\nResumen del turno solicitado:\n"

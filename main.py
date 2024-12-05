@@ -1,6 +1,11 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 import json
+from reportlab.lib.units import inch
+import os
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from datetime import date, timedelta
 
 # Lista para almacenar los registros de vehículos
 vehiculos_registrados = []
@@ -12,15 +17,14 @@ montosTipo = [
 
 # Función para cargar los vehículos desde un archivo JSON
 def cargar_desde_json():
-    global vehiculos_registrados
     try:
         with open('vehiculos_registrados.json', 'r') as file:
-            vehiculos_registrados = json.load(file)
+            return json.load(file)
     except FileNotFoundError:
-        vehiculos_registrados = []
+        return []
     except json.JSONDecodeError:
-        vehiculos_registrados = []
         print("Error al decodificar el archivo JSON. Se inicializará una lista vacía.")
+        return []
 
 
 def guardar_en_json(vehiculo):
@@ -83,6 +87,59 @@ def generar_oblea_vtv(reporte):
         mensaje += "VTV reprobada. Presenta fallos demasiado graves como para otorgarle una provisoria."
     messagebox.showinfo("Estado de VTV", mensaje)
 
+def crear_oblea_pdf(vehiculo, resultado, evaluaciones, comentarios):
+    dominio = vehiculo['dominio']
+    filename = f"obleas/oblea_{dominio}.pdf"
+    os.makedirs('obleas', exist_ok=True)
+    
+    c = canvas.Canvas(filename, pagesize=letter)
+    width, height = letter
+
+    # Agregar logo
+    logo_path = "vtv_logo.png"  # Asegúrate de que este archivo exista en tu proyecto
+    c.drawImage(logo_path, 50, height - 100, width=100, height=80)
+
+    # Título
+    c.setFont("Helvetica-Bold", 16)
+    c.drawString(200, height - 50, "Oblea de Verificación Técnica Vehicular")
+
+    # Información del vehículo
+    c.setFont("Helvetica", 12)
+    c.drawString(50, height - 120, f"Dominio: {vehiculo['dominio']}")
+    c.drawString(50, height - 140, f"Marca: {vehiculo['marca']}")
+    c.drawString(50, height - 160, f"Modelo: {vehiculo['modelo']}")
+    c.drawString(50, height - 180, f"Año: {vehiculo['año']}")
+    c.drawString(50, height - 200, f"Tipo: {vehiculo['tipo']}")
+
+    # Resultado
+    c.setFont("Helvetica-Bold", 14)
+    c.drawString(50, height - 240, f"Resultado: {resultado}")
+
+    # Evaluaciones y comentarios
+    c.setFont("Helvetica", 10)
+    y = height - 280
+    for seccion, items in evaluaciones.items():
+        c.setFont("Helvetica-Bold", 12)
+        c.drawString(50, y, f"{seccion}:")
+        y -= 20
+        c.setFont("Helvetica", 10)
+        for i, item in enumerate(items):
+            c.drawString(70, y, f"{obtener_items_seccion(seccion)[i]}: {item.get()}")
+            y -= 15
+        c.drawString(70, y, f"Comentario: {comentarios[seccion].get()}")
+        y -= 30
+
+    # Fecha de emisión y vencimiento (lado derecho)
+    fecha_emision = date.today()
+    fecha_vencimiento = fecha_emision + timedelta(days=365)
+    c.setFont("Helvetica", 10)
+    c.drawString(width - 200, 100, f"Fecha de emisión: {fecha_emision.strftime('%d/%m/%Y')}")
+    c.drawString(width - 200, 80, f"Fecha de vencimiento: {fecha_vencimiento.strftime('%d/%m/%Y')}")
+
+    c.save()
+    print(f"Oblea PDF creada: {filename}")
+
+
 # Función para calcular el resultado y generar el reporte técnico
 def calcular_resultado_y_reporte(vehiculo, puntajes, comentarios, ventana_evaluacion):
     fallos = []
@@ -119,6 +176,8 @@ def calcular_resultado_y_reporte(vehiculo, puntajes, comentarios, ventana_evalua
 
     imprimir_reporte(reporte)
     generar_oblea_vtv(reporte)
+    resultado = obtener_estado_vtv(reporte)
+    crear_oblea_pdf(vehiculo, resultado, puntajes, comentarios)
 
     # Actualizar el estado del vehículo
     for v in vehiculos_registrados:
@@ -422,19 +481,29 @@ def validacion_dominio(dominio):
     dominio = dominio.upper()
     letraPatenteCorta = ("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","R","S","T","U")
     letraPatenteLarga = ("A","B","C","D","E")
+    numeroPatenteLarga = ("1","2","3","4","5","6","7","8","9","0") 
     if len(dominio) == 6:
         primerasTres = dominio[:3]
         ultimasTres = dominio[-3:]
-        if ultimasTres.isdigit() and primerasTres.isalpha():
-            if dominio[0] in letraPatenteCorta:
-                return True
-    elif len(dominio) == 7 and dominio[0] in letraPatenteLarga:
-        primerasDos = dominio[:2]
-        segundasTres = dominio[2:5]
-        ultimasDos = dominio[-2:]
-        if primerasDos.isalpha() and segundasTres.isdigit() and ultimasDos.isalpha():
-            return True 
-    return False
+        if primerasTres[0] in letraPatenteCorta and primerasTres.isalpha() and ultimasTres.isdigit():
+            return True, "auto_camion"
+        elif ultimasTres[0] in letraPatenteCorta and ultimasTres.isalpha() and primerasTres.isdigit():
+            return True, "moto"
+    elif len(dominio) == 7:
+        if dominio[0] in letraPatenteLarga:
+            primerasDos = dominio[:2]
+            segundasTres = dominio[2:5]
+            ultimasDos = dominio[-2:]
+            if primerasDos.isalpha() and segundasTres.isdigit() and ultimasDos.isalpha():
+                return True, "auto_camion"
+        elif dominio[1] in numeroPatenteLarga:
+            primeraLetra = dominio[:1]
+            siguientesTres = dominio[1:4]
+            ultimasTres = dominio[-3:]
+            if primeraLetra.isalpha() and siguientesTres.isdigit() and ultimasTres.isalpha():
+                return True, "moto"
+    
+    return False, None
 
 # Función para registrar un vehículo
 def registrar_vehiculo(dominio, dni, nombre, modelo, marca, año, tipo_vehiculo, ventana_principal):
@@ -444,7 +513,8 @@ def registrar_vehiculo(dominio, dni, nombre, modelo, marca, año, tipo_vehiculo,
             raise ValueError("Todos los campos deben estar llenos")
         
         # Validar el dominio del vehículo
-        if not validacion_dominio(dominio.get()):
+        es_valido, tipo_patente = validacion_dominio(dominio.get())
+        if not es_valido:
             raise ValueError("Dominio del vehículo inválido. Debe tener un formato válido.")
         
         dni_value = int(dni.get())
@@ -456,6 +526,10 @@ def registrar_vehiculo(dominio, dni, nombre, modelo, marca, año, tipo_vehiculo,
         if año_value < 1910 or año_value > 2025:
             raise ValueError("Año del vehículo inválido. Debe estar entre 1910 y 2025.")
 
+        if (tipo_patente == "moto" and tipo_vehiculo.get() != "Moto") or \
+           (tipo_patente == "auto_camion" and tipo_vehiculo.get() == "Moto"):
+            raise ValueError("El tipo de vehículo seleccionado no coincide con el formato de la patente.")
+        
         # Buscar el monto correspondiente al tipo de vehículo
         monto_base, iva, monto_total = 0, 0, 0
         for fila in montosTipo:
@@ -497,4 +571,5 @@ def registrar_vehiculo(dominio, dni, nombre, modelo, marca, año, tipo_vehiculo,
     except Exception as e:
         messagebox.showerror("Error", f"Ocurrió un error inesperado: {str(e)}")
 
-crear_interfaz()
+if __name__ == "__main__":
+    crear_interfaz()
